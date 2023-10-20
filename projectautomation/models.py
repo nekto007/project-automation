@@ -44,6 +44,11 @@ class Group(models.Model):
         null=True,
         blank=True
     )
+    email = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+        verbose_name='email')
     time_slot = models.ForeignKey(
         TimeSlot,
         verbose_name='Время группы',
@@ -68,6 +73,11 @@ class Student(models.Model):
                               null=True,
                               blank=True,
                               max_length=200)
+    email = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+        verbose_name='email')
     level = models.CharField(verbose_name='Уровень',
                              max_length=200)
     best_time_slots = models.ManyToManyField(
