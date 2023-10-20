@@ -17,6 +17,11 @@ class PM(models.Model):
     name = models.CharField(
         verbose_name='Имя ПМ',
         max_length=200)
+    email = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+        verbose_name='email')
     time_slots = models.ManyToManyField(
         TimeSlot,
         verbose_name='Временной слот',
@@ -44,11 +49,6 @@ class Group(models.Model):
         null=True,
         blank=True
     )
-    email = models.CharField(
-        max_length=50,
-        null=True,
-        blank=True,
-        verbose_name='email')
     time_slot = models.ForeignKey(
         TimeSlot,
         verbose_name='Время группы',
@@ -106,7 +106,7 @@ class Student(models.Model):
                                       default=False)
 
     def __str__(self):
-        return f'Ученик {self.f_name}'
+        return f'Ученик {self.first_name} {self.last_name}'
 
     def get_best_time_slots(self):
         return " | ".join(

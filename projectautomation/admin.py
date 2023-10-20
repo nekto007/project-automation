@@ -5,13 +5,13 @@ from .models import Group, PM, SendDate, Student, TimeSlot
 
 @admin.register(PM)
 class PMAdmin(admin.ModelAdmin):
-    list_display = ('name', 'get_time_slots')
+    list_display = ('name', 'email', 'get_time_slots')
 
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display = (
-    'first_name', 'last_name', 'link_sent', 'result_sent', 'level', 'get_best_time_slots', 'get_ok_time_slots')
+    'first_name', 'last_name', 'email', 'link_sent', 'result_sent', 'level', 'get_best_time_slots', 'get_ok_time_slots')
     list_editable = ['link_sent', 'result_sent']
 
 
