@@ -16,13 +16,7 @@ class TimeSlot(models.Model):
 class PM(models.Model):
     name = models.CharField(
         verbose_name='Имя ПМ',
-        max_length=200),
-    email = models.CharField(
-        max_length=50,
-        null=True,
-        blank=True,
-        verbose_name='email'
-    )
+        max_length=200)
     time_slots = models.ManyToManyField(
         TimeSlot,
         verbose_name='Временной слот',
@@ -73,13 +67,7 @@ class Student(models.Model):
     last_name = models.CharField(verbose_name='Фамилия',
                               null=True,
                               blank=True,
-                              max_length=200),
-    email = models.CharField(
-        max_length=50,
-        null=True,
-        blank=True,
-        verbose_name='email'
-    )
+                              max_length=200)
     level = models.CharField(verbose_name='Уровень',
                              max_length=200)
     best_time_slots = models.ManyToManyField(
