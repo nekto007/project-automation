@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponseRedirect, Http404
 
 from .forms import ChooseTimeForm
 from .models import Student
@@ -17,7 +17,6 @@ def show_time_slots(request, user_id):
                 best_time_slots = form.cleaned_data.get('best_time_slots')
 
                 student.best_time_slots.set(best_time_slots)
-
 
                 return HttpResponseRedirect('/thanks/')
 
