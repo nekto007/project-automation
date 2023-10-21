@@ -145,5 +145,5 @@ class Project(models.Model):
         return f'{self.title}'
 
     class Meta:
-        verbose_name = 'Дата рассылки'
-        verbose_name_plural = 'Даты рассылок'
+        verbose_name = 'Проект'
+        verbose_name_plural = 'Проекты'
