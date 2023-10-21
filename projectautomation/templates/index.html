@@ -12,16 +12,21 @@
           crossorigin='anonymous'>
 </head>
 <body>
-<div class='container'>
-<p>Привет, {{ name }}</p>
-<p>
-  В какие из этих слотов сможешь созвониться?
-</p>
-<form action='/{{ user_id }}' method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type='submit' value='Отправить' class='btn btn-primary'>
-</form>
-</div>
+  <div class='container mt-5'>
+    {% if error %}
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+    {% endif %}
+    <p>Привет, {{ name }}</p>
+    <p>
+      В какие из этих слотов сможешь созвониться?
+    </p>
+    <form action='/to_project/{{ proj_id }}&{{ user_id }}' method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type='submit' value='Отправить' class='btn btn-primary'>
+    </form>
+  </div>
 </body>
 </html>
