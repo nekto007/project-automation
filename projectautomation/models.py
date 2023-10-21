@@ -2,11 +2,10 @@ from django.db import models
 
 
 class Levels(models.Model):
-    title = models.TextField(
-        'Название Группы',
-        max_length=200,
-        blank=True,
-    )
+    title = models.IntegerField(unique=True)
+    class Meta:
+        verbose_name = 'Уровень'
+        verbose_name_plural = 'Уровни'
 
 
 class TimeSlot(models.Model):

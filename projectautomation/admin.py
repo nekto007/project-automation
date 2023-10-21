@@ -17,7 +17,6 @@ class StudentAdmin(admin.ModelAdmin):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'start_at', 'level')
-    readonly_fields = ['title', 'description', 'start_at', 'level']
 
 
 @admin.register(TimeSlot)
@@ -33,4 +32,3 @@ class GroupAdmin(admin.ModelAdmin):
 @admin.register(Levels)
 class LevelsAdmin(admin.ModelAdmin):
     list_display = ['title']
-    readonly_fields = ['title']
