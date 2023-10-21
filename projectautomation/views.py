@@ -1,11 +1,17 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponseRedirect, Http404
 
 from .forms import ChooseTimeForm
 from .models import Student
 
+ERRORS = [
+    'Все группы заняты.',
+    'Этот временной слот уже скомплектован.',
+    'Может еще какая ошибка ))'
+]
 
-def show_time_slots(request, user_id):
+
+def show_time_slots(request, proj_id, user_id, error_id=None):
     try:
         student = Student.objects.get(id=user_id)
     except Student.DoesNotExist:
@@ -18,16 +24,18 @@ def show_time_slots(request, user_id):
 
                 student.best_time_slots.set(best_time_slots)
 
-
                 return HttpResponseRedirect('/thanks/')
 
         form = ChooseTimeForm()
-        return render(request, 'index.html',
-                      context={
-                          'user_id': user_id,
-                          'form': form,
-                          'name': student.first_name
-                      })
+        context = {'proj_id': proj_id,
+                   'user_id': user_id,
+                   'form': form,
+                   'name': student.first_name}
+
+        if error_id:
+            context['error'] = ERRORS[error_id - 1]
+
+        return render(request, 'index.html', context=context)
 
 
 def show_thanks(request):
