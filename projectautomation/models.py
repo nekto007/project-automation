@@ -2,7 +2,13 @@ from django.db import models
 
 
 class Levels(models.Model):
-    title = models.IntegerField(unique=True)
+    title = models.CharField(
+        verbose_name='Уровни',
+        max_length=200)
+
+    def __str__(self):
+        return f'{self.title}'
+
     class Meta:
         verbose_name = 'Уровень'
         verbose_name_plural = 'Уровни'
@@ -41,7 +47,8 @@ class PM(models.Model):
         return f'ПМ {self.name}'
 
     def get_time_slots(self):
-        return " | ".join([str(time_slot) for time_slot in self.time_slots.all()])
+        return " | "\
+            .join([str(time_slot) for time_slot in self.time_slots.all()])
 
     class Meta:
         verbose_name = 'ПМа'
@@ -70,7 +77,6 @@ class Student(models.Model):
 
     def __str__(self):
         return f'Ученик {self.first_name} {self.last_name}'
-
 
     class Meta:
         verbose_name = 'Ученик'
@@ -129,7 +135,7 @@ class Project(models.Model):
     title = models.CharField(verbose_name='Наименование рассылки',
                              max_length=200)
     description = models.CharField(verbose_name='Описание',
-                             max_length=200)
+                                   max_length=200)
     start_at = models.DateTimeField('Начало проекта',
                                     null=True,
                                     blank=True)
