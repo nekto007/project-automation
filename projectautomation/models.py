@@ -15,7 +15,7 @@ class TimeSlot(models.Model):
         max_length=200)
 
     def __str__(self):
-        return f'{self.timeslot}'
+        return f'{self.start_time}'
 
     class Meta:
         verbose_name = 'Временной слот'
