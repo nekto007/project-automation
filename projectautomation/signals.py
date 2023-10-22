@@ -48,9 +48,50 @@ def create_group(sender, instance, created, **kwargs):
        (not instance.trello_url) and\
        (not instance.telegram_chat_id) and\
        (instance.is_complete):
-        print(f'-=-=-=-=-=-=-=-=-Send {instance.pm.name} to email PM: {instance.pm.email}')
+        smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
+        smtpObj.starttls()
+        smtpObj.login(
+            settings.SENDER_EMAIL_LOGIN,
+            settings.SENDER_EMAIL_PASSWORD)
+        message = f'Привет {instance.pm.name}\n'\
+                  f'Группа "{instance.title}" собрана\n'\
+                  f'Выбранное время: {instance.time_slot}.\n'\
+                  f'Добавьте данные телеграм и трело в базу.'
+
+        msg = MIMEMultipart()
+        msg['From'] = settings.SENDER_EMAIL_LOGIN
+        msg['To'] = instance.pm.email
+        msg['Subject'] =\
+            f'Собрана команда "{instance.time_slot}" '\
+            f'проекта "{instance.title}"'
+
+        msg.attach(MIMEText(message, 'plain'))
+
+        smtpObj.send_message(msg)
     elif (not created) and\
          (instance.trello_url) and\
          (instance.telegram_chat_id) and\
          (instance.is_complete):
-        print(f'-=-=-=-=-=-=-=-=-Send students email: {instance.students}')
+        smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
+        smtpObj.starttls()
+        smtpObj.login(
+            settings.SENDER_EMAIL_LOGIN,
+            settings.SENDER_EMAIL_PASSWORD)
+        for student in instance.students.all():
+            msg = MIMEMultipart()
+
+            message = \
+                f'Уважаемый {student.first_name}\n'\
+                f'Вы записаны на коммандный проект {instance.project.title}\n'\
+                f'Выбранное время созвона: {instance.time_slot}\n\n'\
+                f'Ссылка на телеграм бота: {instance.telegram_chat_id}\n'\
+                f'Ссылка на трело: {instance.trello_url}'
+
+            msg['From'] = settings.SENDER_EMAIL_LOGIN
+            msg['To'] = student.email
+            msg['Subject'] =\
+                f'Командный проект "{instance.title}"'
+
+            msg.attach(MIMEText(message, 'plain'))
+
+            smtpObj.send_message(msg)
