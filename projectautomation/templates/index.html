@@ -21,10 +21,20 @@
     <p>Привет, {{ name }}</p>
     <p>
       В какие из этих слотов сможешь созвониться?
+
+      Наиболее удобное время (*время московское):
     </p>
-    <form action='/to_project/{{ proj_id }}&{{ user_id }}' method='post'>
+    <form action='/to_project/{{ project_id }}&{{ user_id }}' method='post'>
+      {% for available_slot in available_slots %}
         {% csrf_token %}
-        {{ form.as_p }}
+        <ul id="id_best_time_slots">
+          <li>
+            <label>
+              <input type="radio" name="best_time_slots" value="1">{{ available_slot }}
+            </label>
+          </li>
+        </ul>
+      {% endfor%}
         <input type='submit' value='Отправить' class='btn btn-primary'>
     </form>
   </div>
