@@ -84,6 +84,32 @@ class Student(models.Model):
         verbose_name_plural = 'Ученики'
 
 
+class Project(models.Model):
+    title = models.CharField(verbose_name='Наименование рассылки',
+                             max_length=200)
+    description = models.CharField(
+        verbose_name='Описание',
+        max_length=200
+    )
+    start_at = models.DateTimeField('Начало проекта',
+                                    null=True,
+                                    blank=True)
+    level = models.ForeignKey(
+        Levels,
+        verbose_name='Уровень',
+        related_name='project',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True)
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        verbose_name = 'Проект'
+        verbose_name_plural = 'Проекты'
+
+
 class Group(models.Model):
     title = models.TextField(
         'Название Группы',
@@ -94,6 +120,14 @@ class Group(models.Model):
         'Описание',
         max_length=200,
         blank=True,
+    )
+    project = models.ForeignKey(
+        Project,
+        verbose_name='Проект группы',
+        related_name='project',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
     )
     time_slot = models.ForeignKey(
         TimeSlot,
@@ -138,29 +172,3 @@ class Group(models.Model):
     class Meta:
         verbose_name = 'Группа'
         verbose_name_plural = 'Группы'
-
-
-class Project(models.Model):
-    title = models.CharField(verbose_name='Наименование рассылки',
-                             max_length=200)
-    description = models.CharField(
-        verbose_name='Описание',
-        max_length=200
-    )
-    start_at = models.DateTimeField('Начало проекта',
-                                    null=True,
-                                    blank=True)
-    level = models.ForeignKey(
-        Levels,
-        verbose_name='Уровень',
-        related_name='project',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True)
-
-    def __str__(self):
-        return f'{self.title}'
-
-    class Meta:
-        verbose_name = 'Проект'
-        verbose_name_plural = 'Проекты'
