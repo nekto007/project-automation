@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Levels(models.Model):
-    title = models.IntegerField(
+    title = models.CharField(
         verbose_name='Уровни',
         max_length=200)
 
