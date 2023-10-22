@@ -78,7 +78,6 @@ class Student(models.Model):
     def __str__(self):
         return f'Ученик {self.first_name} {self.last_name}'
 
-
     class Meta:
         verbose_name = 'Ученик'
         verbose_name_plural = 'Ученики'
