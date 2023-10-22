@@ -19,9 +19,9 @@ def show_time_slots(request, project_id, user_id):
             print(form.errors)
             if form.is_valid():
                 best_time_slots = form.cleaned_data.get('best_time_slots')
-                find_group = Group.objects.get(time_slot_id=best_time_slots)
-                if find_group:
-                    group = Group.objects.get(find_group)
+                group = Group.objects.get(time_slot_id=best_time_slots)
+                print('find_group', group)
+                if group:
                     group.students.add(student)
                 else:
                     Group.objects.create(student)
