@@ -3,6 +3,7 @@ from django.db import models
 
 class Levels(models.Model):
     title = models.IntegerField(unique=True)
+
     class Meta:
         verbose_name = 'Уровень'
         verbose_name_plural = 'Уровни'
@@ -71,7 +72,6 @@ class Student(models.Model):
     def __str__(self):
         return f'Ученик {self.first_name} {self.last_name}'
 
-
     class Meta:
         verbose_name = 'Ученик'
         verbose_name_plural = 'Ученики'
@@ -99,12 +99,20 @@ class Group(models.Model):
     pm = models.ForeignKey(
         PM,
         verbose_name='ПМ группы',
-        related_name='groups',
+        related_name='project',
         on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
-    trello_id = models.IntegerField(unique=True)
+    trello_url = models.URLField(
+        null=True,
+        blank=True
+    )
+    telegram_chat_id = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True
+    )
     students = models.ManyToManyField(
         Student,
         verbose_name='Студенты',
@@ -118,7 +126,7 @@ class Group(models.Model):
     )
 
     def __str__(self):
-        return f'{self.pm.name}-{self.time_slot.timeslot}'
+        return f'{self.pm.name}-{self.time_slot.start_time}'
 
     class Meta:
         verbose_name = 'Группа'
@@ -129,7 +137,7 @@ class Project(models.Model):
     title = models.CharField(verbose_name='Наименование рассылки',
                              max_length=200)
     description = models.CharField(verbose_name='Описание',
-                             max_length=200)
+                                   max_length=200)
     start_at = models.DateTimeField('Начало проекта',
                                     null=True,
                                     blank=True)
