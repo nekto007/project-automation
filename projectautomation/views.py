@@ -1,4 +1,4 @@
-from django.http import Http404, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import Group, PM, Project, Student, TimeSlot
@@ -28,7 +28,8 @@ def show_time_slots(request, project_id, user_id, error_id=None):
 
         return redirect('/thanks/')
 
-    unavailable_slots = Group.objects.filter(is_complete=True).values_list('time_slot_id', flat=True)
+    unavailable_slots = Group.objects.filter(is_complete=True)\
+        .values_list('time_slot_id', flat=True)
     available_slots = PM.objects.values_list('time_slots', flat=True)
     time_slots = TimeSlot.objects.filter(id__in=available_slots) \
         .exclude(id__in=unavailable_slots).values('id', 'start_time')
