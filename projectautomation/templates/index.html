@@ -24,7 +24,7 @@
 
       Наиболее удобное время (*время московское):
     </p>
-    <form action='/to_project/{{ project_id }}&{{ user_id }}' method='post'>
+    <form action='/to_project/{{ project_id }}/{{ user_id }}/{{ error_id }}' method='post'>
       {% csrf_token %}
       {% for available_slot in available_slots %}
         <ul id="id_best_time_slots">

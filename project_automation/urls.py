@@ -21,9 +21,9 @@ from projectautomation import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('to_project/<int:project_id>&<int:user_id>',
+    path('to_project/<int:project_id>/<int:user_id>/',
          views.show_time_slots, name='choose_time'),
-    path('to_project/<int:project_id>&<int:user_id>&<int:error_id>',
+    path('to_project/<int:project_id>/<int:user_id>/<int:error_id>/',
          views.show_time_slots, name='choose_time'),
     path('thanks/', views.show_thanks),
 ]

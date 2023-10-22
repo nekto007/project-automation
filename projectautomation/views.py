@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Group, PM, Project, Student, TimeSlot
 
 
-def show_time_slots(request, project_id, user_id):
+def show_time_slots(request, project_id, user_id, error_id=None):
     student = get_object_or_404(Student, id=user_id)
     project = get_object_or_404(Project, id=project_id)
     in_group = Group.objects.filter(project_id=project, students=student)
