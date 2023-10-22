@@ -3,10 +3,10 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from django.conf import settings
-from django.db.models.signals import post_save
+from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 
-from .models import Project
+from .models import Group, Project
 
 
 # triggred when User object is created
@@ -23,10 +23,10 @@ def create_profile(sender, instance, created, **kwargs):
         for student in students:
             msg = MIMEMultipart()
 
-            message = f'Уважаемый {student.first_name}\n'\
-                      f'Приглашаем на коммандный проект {instance.title}\n'\
-                      f'Выберете время: '\
-                      f'http://127.0.0.1:8000/'\
+            message = f'Уважаемый {student.first_name}\n' \
+                      f'Приглашаем на коммандный проект {instance.title}\n' \
+                      f'Выберете время: ' \
+                      f'http://127.0.0.1:8000/' \
                       f'to_project/{instance.id}&{student.id}'
 
             msg['From'] = settings.SENDER_EMAIL_LOGIN
@@ -36,3 +36,14 @@ def create_profile(sender, instance, created, **kwargs):
             msg.attach(MIMEText(message, 'plain'))
 
             smtpObj.send_message(msg)
+
+
+@receiver(m2m_changed, sender=Group.students.through)
+def update_is_complete(sender, instance, **kwargs):
+    students_count = instance.students.count()
+    print(students_count)
+    if students_count >= 3:
+        instance.is_complete = True
+    else:
+        instance.is_complete = False
+    instance.save()
