@@ -7,7 +7,7 @@ from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 from django.urls import reverse
 
-from .models import Group, Project
+from .models import Group, Project, Student
 
 
 # triggred when User object is created
@@ -99,9 +99,12 @@ def create_group(sender, instance, created, **kwargs):
 
 @receiver(m2m_changed, sender=Group.students.through)
 def update_is_complete(sender, instance, **kwargs):
-    students_count = instance.students.count()
-    if students_count >= 3:
-        instance.is_complete = True
-    else:
-        instance.is_complete = False
-    instance.save()
+    project_groups = Group.objects.filter(project=instance.project)
+    for group in project_groups:
+        student_count = group.students.count()
+        if student_count == 3 or not Student.objects.filter(level=group.project.level).exclude(
+                students__project=group.project).exists():
+            group.is_complete = True
+        else:
+            group.is_complete = False
+        group.save()
