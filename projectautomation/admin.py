@@ -27,7 +27,7 @@ class TimeSlotAdmin(admin.ModelAdmin):
 @admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
     list_display = (
-        'title', 'description', 'time_slot', 'pm', 'trello_url', 'telegram_chat_id', 'is_complete'
+        'title', 'description', 'project', 'time_slot', 'pm', 'trello_url', 'telegram_chat_id', 'is_complete'
     )
 
 
